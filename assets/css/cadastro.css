@@ -17,8 +17,20 @@
 .cadastro-form input,
 textarea,
 select {
-    border: solid 0.5px rgba(78, 78, 78, 0.137);
+    border: solid 0.5px rgba(78, 78, 78, 0.404);
     border-radius: 15px;
+    min-width: 200px;
+    ;
+}
+
+select {
+    max-width: 200px;
+    background-color: white;
+}
+
+option:hover {
+    background-color: #57B793;
+    color: white;
 }
 
 .cadastro-form input {
@@ -33,6 +45,21 @@ h2 {
     color: #57B793;
     font-size: 35px;
 }
+
+.red {
+    color: rgba(192, 0, 0, 0.74);
+    font-size: 15px;
+    padding: 0 0 5px 5px;
+    margin-top: -5px;
+}
+
+.green {
+    color: rgba(87, 183, 148, 0.89);
+    font-size: 15px;
+    padding: 0 0 5px 5px;
+    margin-top: -5px;
+}
+
 
 input:hover,
 input:focus,
