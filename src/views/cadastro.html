@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelflow City Web App</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/cadastro.css">
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <nav>
+                <li>
+                    <a class="logo" href="index.html">
+                        <img src="../../assets/img/city.svg" alt="Logo cidade">
+                    </a>
+                </li>
+                <li>
+                    <a href="lista.html" class="btn">Lista de Cidades</a>
+                </li>
+                <li class="tooltip">
+                    <a href="cadastro.html" class="btn plus">
+                        +
+                        <span class="tooltiptext">Cadastrar nova cidade</span>
+                    </a>
+                </li>
+            </nav>
+        </header>
+
+        <div id="main">
+            <h2>Cadastrar nova Cidade</h2>
+            <form action="" class="cadastro-form">
+                <label>Nome:</label>
+                <input type="text" name="ibgecod" id="ibgecod">
+
+                <label>Estado:</label>
+                <select name="estado" id="estado">
+
+                </select>
+
+                <label>Código IGBE:</label>
+                <input type="number" name="ibgecod" id="ibgecod" disabled>
+
+                <label>Observações:</label>
+                <textarea name="obs" id="obs"></textarea>
+
+            </form>
+        </div>
+
+        <footer>
+            <p>Alguns direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

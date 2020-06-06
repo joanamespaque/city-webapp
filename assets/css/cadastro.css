@@ -1,0 +1,44 @@
+.cadastro-form {
+    display: grid;
+    /* grid-template-columns: 20% 1fr; */
+    align-items: center;
+    font-size: 22px;
+    width: 60%;
+    outline: none;
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
+
+.cadastro-form label {
+    text-align: left;
+    padding: 0 20px 10px 0;
+}
+
+.cadastro-form input,
+textarea,
+select {
+    border: solid 0.5px rgba(78, 78, 78, 0.137);
+    border-radius: 15px;
+}
+
+.cadastro-form input {
+    max-width: 80%;
+}
+
+#main {
+    margin-left: 10%;
+}
+
+h2 {
+    color: #57B793;
+    font-size: 35px;
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+select:focus,
+select:hover,
+textarea:focus {
+    outline: none;
+}

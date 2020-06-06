@@ -1,0 +1,50 @@
+.editar {
+    background: url("../../assets/img/edit.svg") no-repeat center center;
+    /* filter: invert(69%) sepia(20%) saturate(856%) hue-rotate(106deg) brightness(89%) contrast(89%); */
+    filter: invert(48%) sepia(23%) saturate(5553%) hue-rotate(216deg) brightness(100%) contrast(98%);
+}
+
+.deletar {
+    background: url("../../assets/img/delete.svg") no-repeat center center;
+    filter: invert(48%) sepia(23%) saturate(5553%) hue-rotate(216deg) brightness(100%) contrast(98%);
+}
+
+.item-icon {
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 20px;
+}
+
+.grid {
+    display: grid;
+    max-width: 80%;
+    margin: 0 auto;
+    border: none;
+    color: rgb(70, 70, 70);
+}
+
+.item {
+    box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
+    border-radius: 10px;
+    display: grid;
+    margin: 10px;
+    padding: 10px;
+    background: rgba(37, 37, 37, 0.021);
+    text-align: center;
+    font-size: 1.5em;
+    grid-template-columns: 25% 25% 25% 15% 10%;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center
+}
+
+.busca-result {
+    display: none;
+}
+
+.item button {
+    background-color: #57B793;
+    float: right;
+    margin-right: 10px;
+}

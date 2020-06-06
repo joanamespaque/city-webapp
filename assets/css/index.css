@@ -1,0 +1,41 @@
+form {
+    max-width: 600px;
+    margin: 30px auto 60px auto;
+    position: relative;
+}
+
+@media screen and (max-width: 700px) {
+    form {
+        max-width: 70%;
+    }
+}
+
+form:hover {
+    outline: none;
+    transform: scale(1.1);
+    transition: all 0.3s;
+}
+
+#busca {
+    font-size: 18px;
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    color: rgb(70, 70, 70);
+    box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
+    transition: all 0.3s;
+}
+
+#lupa {
+    box-shadow: none;
+    width: 62px;
+    height: 62px;
+    background: url("../../assets/img/lupa.svg") no-repeat center center;
+    text-indent: -150px;
+    border: none;
+    position: absolute;
+    cursor: pointer;
+    top: 0px;
+    right: 0px;
+}

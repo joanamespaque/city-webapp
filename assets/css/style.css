@@ -1,0 +1,160 @@
+* {
+    box-sizing: border-box;
+}
+
+body,
+ul,
+li,
+h1,
+h2,
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+body {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    color: #345;
+}
+
+
+a {
+    color: #345;
+    text-decoration: none;
+}
+
+footer {
+    background-color: #57B793;
+    padding: 25px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #fff;
+    position: relative;
+    top: 75px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(30, 60, 90, 0.1);
+}
+
+.logo {
+    padding: 5px 0;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.app {
+    background: url("../../assets/img/background.svg") right bottom no-repeat;
+}
+
+.app,
+.container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-size: 30%;
+}
+
+#main {
+    flex: 1;
+    margin-top: 30px;
+    max-width: 100%;
+}
+
+.btn {
+    display: block;
+    padding: 10px 30px;
+    background: #6F78FC;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
+    transition: all 0.3s;
+    border: none;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    cursor: pointer;
+}
+
+.plus {
+    font-size: 25px;
+    font: bold;
+    padding: 5px 15px;
+}
+
+*:focus {
+    outline: none;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #6F78FC;
+    ;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #57B793;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    /* top: -4px; */
+    right: 135%;
+    font-size: 18px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+input,
+textarea,
+select {
+    border-radius: 4px;
+    padding: 15px;
+    border: 1px solid white;
+    box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+    transition: all 0.3s;
+    font-size: 1rem;
+    font-family: "Avenir", Arial, Helvetica, sans-serif;
+    margin-bottom: 15px;
+    color: rgb(70, 70, 70);
+
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
+    border-color: rgba(137, 119, 255, 0.486);
+}
+
+@media screen and (max-width: 770px) {
+    .tooltip .tooltiptext {
+        top: 130%;
+        left: -200%;
+        margin-left: -60px;
+        /* Use half of the width (120/2 = 60), to center the tooltip */
+    }
+}
