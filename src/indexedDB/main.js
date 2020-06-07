@@ -207,12 +207,15 @@ function popularLista() {
     let div = $('.grid');
     cidades.forEach(element => {
         let item = $('<div>').addClass('item');
-        item.append($('<div>').append(element.nome + "/" + element.estado));
-        item.append($('<div>').append("População estimada: " + element.populacao));
-        item.append($('<div>').append("Código IBGE: " + element.ibgeCod));
-        let divButton = $('<div>');
+        let infos = [
+            $('<div>').addClass("info").append(element.nome + "/" + element.estado),
+            $('<div>').addClass("info").append("População estimada: " + element.populacao),
+            $('<div>').addClass("info").append("Código IBGE: " + element.ibgeCod)
+        ];
+        item.append(infos);
+        let divButton = $('<div>').addClass("mais");
         divButton.append($('<button>').addClass('btn').append('Ver mais'));
-        let divMenu = $('<div>');
+        let divMenu = $('<div>').addClass("menu");
         divMenu.append($('<div>').addClass('editar item-icon').attr({
             id: element.id
         }))

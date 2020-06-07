@@ -50,3 +50,30 @@
     float: right;
     margin-right: 10px;
 }
+
+
+@media screen and (max-width:1150px) {
+    .item {
+        display: inline;
+    }
+
+    .deletar,
+    .editar {
+        float: left;
+    }
+
+    .mais,
+    .menu {
+        margin-top: 10px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width:750px) {
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
