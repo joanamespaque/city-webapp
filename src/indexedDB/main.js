@@ -1,9 +1,21 @@
 let request = indexedDB.open("CidadeBD", 1);
 let db;
+let cidades = [];
 
-request.onsuccess = function (event) {
-    db = request.result;
-};
+window.onload = function () {
+    // aqui popula com os dados prontos
+    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    // DON'T use "let indexedDB = ..." if you're not in a function.
+    // Moreover, you may need references to some window.IDB* objects:
+    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+    request.onsuccess = function (event) {
+        db = request.result;
+        event.preventDefault();
+        listar();
+    };
+
+}
 
 request.onupgradeneeded = function (event) {
     let db = event.target.result;
@@ -60,7 +72,7 @@ function store(cidade) {
 
         //Recuperando a object store para excluir o registro
 
-        let request = store.add(cidade);
+        let request = store.put(cidade);
 
 
     }
@@ -157,36 +169,54 @@ function buscar(cidade) {
 
 
 function listar() {
-    let transaction = db.transaction(['cidade'], 'readonly');
+    console.log(db);
+    let transaction = db.transaction('cidade', 'readonly');
 
-    transaction.oncomplete = function (event) {
-        console.log('Transação readonly em listar() finalizada com sucesso.');
+    transaction.oncomplete = function () {
+        popularLista()
     };
 
     transaction.onerror = function (event) {
         console.log('Transação  readonly em listar() finalizada com erro. Erro: ' + event.target.error);
     };
 
-    let cidades = transaction.objectStore('cidade');
-    cidades.openCursor().onsuccess = function (event) {
-        var cursor = event.target.result;
-        if (cursor) {
-            console.log(cursor);
-
-            cursor.continue();
-        } else {
-            console.log('Entries all displayed.');
+    let store = transaction.objectStore('cidade');
+    let cursor = store.openCursor();
+    cursor.onsuccess = e => {
+        let current = e.target.result;
+        if (current) {
+            cidades.push(current.value);
+            current.continue();
         }
     };
+    cursor.onerror = e => {
+        console.log('Error:' + e.target.error.name);
+    };
+    return cidades;
 }
 
+function popularLista() {
+    console.log("oi");
+    let div = $('.grid');
+    console.log(cidades);
+    cidades.forEach(element => {
+        let item = $('<div>').addClass('item');
+        item.append($('<div>').append(element.nome + "/" + element.estado));
+        item.append($('<div>').append("População estimada: " + element.populacao));
+        item.append($('<div>').append("Código IBGE: " + element.ibgeCod));
+        let divButton = $('<div>');
+        divButton.append($('<button>').addClass('btn').append('Ver mais'));
+        let divMenu = $('<div>');
+        divMenu.append($('<div>').addClass('editar item-icon').attr({
+            id: element.id
+        }))
+        divMenu.append($('<div>').addClass('deletar item-icon').attr({
+            id: element.id
+        }))
+        item.append(divButton);
+        item.append(divMenu);
+        div.append(item);
+    });
 
-window.onload = function () {
-    // aqui popula com os dados prontos
-    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-    // DON'T use "let indexedDB = ..." if you're not in a function.
-    // Moreover, you may need references to some window.IDB* objects:
-    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 }

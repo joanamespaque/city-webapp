@@ -55,6 +55,7 @@ $('#nome').change(function () {
 
 
 function ibgeIdValidation() {
+    let valid = false;
     ibgedata.forEach(element => {
         if ((element.nome === $('#nome').val().toLowerCase().trim()) && (element.uf === $('#estado option:selected').val())) {
             console.log("entrou no if");
@@ -68,18 +69,21 @@ function ibgeIdValidation() {
                 $('input[type="submit"]').removeClass('disabled');
                 $(':input[type="submit"]').prop('disabled', false);
             }
-
+            valid = true;
         }
     });
-    if ($('#ibgecod').val() === '') {
-        console.log("entrou aqui");
+    if ($('#ibgecod').val() === '' || !valid) {
         $('#ibgecod').val('Código não encontrado para essas informações. Tente novamente.');
+        $('#msgIBGE').empty();
+        validacao.nome = false;
+        validacao.estado = false;
+        validacao.ibge = false;
 
     }
 }
 
 $('#populacao').change(function () {
-    if ($('#populacao').val() <= 0) {
+    if (Number($('#populacao').val()) <= 0) {
         ($('#msgPopulacao')).text('Esse número precisa ser maior que 0.')
         $('#msgPopulacao').addClass('red');
     } else {
@@ -94,6 +98,19 @@ $('#populacao').change(function () {
 });
 
 $('#cidade-form').submit(function (event) {
-    console.log("submit");
+    let nome = $('#nome').val();
+    let estado = $('#estado').val();
+    let populacao = Number($('#populacao').val());
+    let ibge = $('#ibgecod').val();
+    let obs = $('#obs').val();
+    let cidade = {
+        "nome": nome,
+        "estado": estado,
+        "populacao": populacao,
+        "obs": obs,
+        "ibgeCod": ibge
+    }
+    store(cidade);
     event.preventDefault();
+    window.location.href = "lista.html";
 });
