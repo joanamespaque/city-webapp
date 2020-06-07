@@ -1,16 +1,16 @@
-form {
+#form-busca {
     max-width: 600px;
     margin: 30px auto 60px auto;
     position: relative;
 }
 
 @media screen and (max-width: 700px) {
-    form {
+    #form-busca {
         max-width: 70%;
     }
 }
 
-form:hover {
+#form-busca:hover {
     outline: none;
     transform: scale(1.1);
     transition: all 0.3s;

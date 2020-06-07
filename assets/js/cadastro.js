@@ -40,24 +40,24 @@ $('#estado').change(function () {
         $('#msgNome').text('Por favor, preencha esse campo também.');
         $('#msgNome').addClass('red');
     } else {
-        ibgeIdValidation();
+        ibgeIdValidation($('#nome').val().toLowerCase().trim(), $('#estado option:selected').val());
         console.log("validacao...");
     }
 });
 
 $('#nome').change(function () {
     if ($('#estado option:selected').val() !== 'selecione') {
-        ibgeIdValidation();
+        ibgeIdValidation($('#nome').val().toLowerCase().trim(), $('#estado option:selected').val());
         console.log("validacao...");
     }
 
 });
 
-
-function ibgeIdValidation() {
+function ibgeIdValidation(nome, estado) {
     let valid = false;
+
     ibgedata.forEach(element => {
-        if ((element.nome === $('#nome').val().toLowerCase().trim()) && (element.uf === $('#estado option:selected').val())) {
+        if ((element.nome === nome) && (element.uf === estado)) {
             console.log("entrou no if");
             $('#ibgecod').val(element.id);
             $('#msgIBGE').text('Código encontrado.');
@@ -65,10 +65,6 @@ function ibgeIdValidation() {
             validacao.nome = true;
             validacao.estado = true;
             validacao.ibge = true;
-            if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
-                $('input[type="submit"]').removeClass('disabled');
-                $(':input[type="submit"]').prop('disabled', false);
-            }
             valid = true;
         }
     });
@@ -78,24 +74,37 @@ function ibgeIdValidation() {
         validacao.nome = false;
         validacao.estado = false;
         validacao.ibge = false;
-
+    }
+    if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
+        $('input[type="submit"]').removeClass('disabled');
+        $(':input[type="submit"]').prop('disabled', false);
+    } else {
+        $(':input[type="submit"]').prop('disabled', true);
+        $('input[type="submit"]').addClass('disabled');
     }
 }
 
 $('#populacao').change(function () {
-    if (Number($('#populacao').val()) <= 0) {
+    populacaoValidation(Number($('#populacao').val()));
+});
+
+function populacaoValidation(number) {
+    if (number <= 0) {
         ($('#msgPopulacao')).text('Esse número precisa ser maior que 0.')
         $('#msgPopulacao').addClass('red');
     } else {
         validacao.populacao = true;
         $('#msgPopulacao').empty();
-        if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
-            $('input[type="submit"]').removeClass('disabled');
-            $(':input[type="submit"]').prop('disabled', false);
-        }
 
     }
-});
+    if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
+        $('input[type="submit"]').removeClass('disabled');
+        $(':input[type="submit"]').prop('disabled', false);
+    } else {
+        $(':input[type="submit"]').prop('disabled', true);
+        $('input[type="submit"]').addClass('disabled');
+    }
+}
 
 $('#cidade-form').submit(function (event) {
     let nome = $('#nome').val();
@@ -110,7 +119,30 @@ $('#cidade-form').submit(function (event) {
         "obs": obs,
         "ibgeCod": ibge
     }
+    console.log(cidade);
+    let id = queryString("id");
+    if (id) {
+        cidade.id = Number(id);
+    }
     store(cidade);
     event.preventDefault();
     window.location.href = "lista.html";
 });
+
+
+function queryString(parameter) {
+    let loc = location.search.substring(1, location.search.length);
+    let param_value = false;
+    let params = loc.split("&");
+    for (i = 0; i < params.length; i++) {
+        param_name = params[i].substring(0, params[i].indexOf('='));
+        if (param_name == parameter) {
+            param_value = params[i].substring(params[i].indexOf('=') + 1)
+        }
+    }
+    if (param_value) {
+        return param_value;
+    } else {
+        return undefined;
+    }
+}

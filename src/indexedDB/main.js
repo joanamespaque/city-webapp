@@ -1,7 +1,7 @@
 let request = indexedDB.open("CidadeBD", 1);
 let db;
 let cidades = [];
-
+let cidade;
 window.onload = function () {
     // aqui popula com os dados prontos
     window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -13,6 +13,10 @@ window.onload = function () {
         db = request.result;
         event.preventDefault();
         listar();
+        let id = queryString("id");
+        if (id) {
+            getCidade(Number(id));
+        }
     };
 
 }
@@ -46,17 +50,17 @@ request.onupgradeneeded = function (event) {
 
 }
 
+
+
+
 function store(cidade) {
-    //Abrindo a transação com a object store "cidade"
     transaction = db.transaction('cidade', "readwrite");
 
-    // Quando a transação é executada com sucesso
     transaction.oncomplete = function (event) {
         console.log('Transação readwrite em store() finalizada com sucesso.');
         event.preventDefault();
     };
 
-    // Quando ocorre algum erro na transação
     transaction.onerror = function (event) {
         console.log('Transação  readwrite em store() finalizada com erro. Erro: ' + event.target.error);
         event.preventDefault();
@@ -65,16 +69,9 @@ function store(cidade) {
     let store = transaction.objectStore('cidade');
 
     if (cidade.id) {
-        // se o objeto tem id, editar
-        let request = store.get(cidade.id);
-    } else {
-        // se não, adicionar
-
-        //Recuperando a object store para excluir o registro
-
         let request = store.put(cidade);
-
-
+    } else {
+        let request = store.add(cidade);
     }
     request.onerror = function (event) {
         console.log('Ocorreu um erro ao salvar cidade.');
@@ -87,16 +84,14 @@ function store(cidade) {
 
 }
 
-function deletar(cidade) {
+function deletar(id) {
     //Abrindo a transação com a object store "cidade"
     transaction = db.transaction('cidade', "readwrite");
 
-    // Quando a transação é executada com sucesso
     transaction.oncomplete = function (event) {
         console.log('Transação readwrite em deletar() finalizada com sucesso.');
     };
 
-    // Quando ocorre algum erro na transação
     transaction.onerror = function (event) {
         console.log('Transação  readwrite em deletar() finalizada com erro. Erro: ' + event.target.error);
     };
@@ -105,7 +100,7 @@ function deletar(cidade) {
     let store = transaction.objectStore('cidade');
 
     //Excluindo o registro pela chave primaria
-    let request = store.delete(cidade.id);
+    let request = store.delete(Number(id));
 
     //quando ocorrer um erro ao excluir o registro
     request.onerror = function (event) {
@@ -116,9 +111,10 @@ function deletar(cidade) {
     request.onsuccess = function (event) {
         console.log('cidade excluída com sucesso.');
     }
+    document.location.reload(true);
 }
 
-function get(id) {
+function getCidade(id) {
     let transaction = db.transaction('cidade', "readonly");
     // Quando a transação é executada com sucesso
     transaction.oncomplete = function (event) {
@@ -131,9 +127,22 @@ function get(id) {
     };
 
     let store = transaction.objectStore('cidade');
-    let request = store.get(4);
+    let request = store.get(id);
     request.onsuccess = function (event) {
         console.log(event.target.result);
+        let nome = event.target.result.nome;
+        let obs = event.target.result.obs;
+        let ibge = event.target.result.ibgeCod;
+        let populacao = event.target.result.populacao;
+        let estado = event.target.result.estado;
+        ibgeIdValidation(nome.toLowerCase().trim(), estado);
+        populacaoValidation(Number(populacao));
+        $("#nome").val(nome);
+        $("#estado").val(estado);
+        $("#obs").val(obs);
+        $("#populacao").val(Number(populacao));
+        console.log(nome);
+        return event.target.result;
     }
 }
 
@@ -192,13 +201,10 @@ function listar() {
     cursor.onerror = e => {
         console.log('Error:' + e.target.error.name);
     };
-    return cidades;
 }
 
 function popularLista() {
-    console.log("oi");
     let div = $('.grid');
-    console.log(cidades);
     cidades.forEach(element => {
         let item = $('<div>').addClass('item');
         item.append($('<div>').append(element.nome + "/" + element.estado));
@@ -217,6 +223,21 @@ function popularLista() {
         item.append(divMenu);
         div.append(item);
     });
+}
 
-
+function queryString(parameter) {
+    let loc = location.search.substring(1, location.search.length);
+    let param_value = false;
+    let params = loc.split("&");
+    for (i = 0; i < params.length; i++) {
+        param_name = params[i].substring(0, params[i].indexOf('='));
+        if (param_name == parameter) {
+            param_value = params[i].substring(params[i].indexOf('=') + 1)
+        }
+    }
+    if (param_value) {
+        return param_value;
+    } else {
+        return undefined;
+    }
 }

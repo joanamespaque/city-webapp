@@ -15,6 +15,7 @@
     height: 30px;
     float: right;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .grid {
