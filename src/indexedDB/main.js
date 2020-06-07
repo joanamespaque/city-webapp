@@ -208,7 +208,7 @@ function popularLista() {
     cidades.forEach(element => {
         let item = $('<div>').addClass('item');
         let infos = [
-            $('<div>').addClass("info").append(element.nome + "/" + element.estado),
+            $('<div>').addClass("info").append(element.nome + " / " + element.estado),
             $('<div>').addClass("info").append("População estimada: " + element.populacao),
             $('<div>').addClass("info").append("Código IBGE: " + element.ibgeCod)
         ];

@@ -20,12 +20,10 @@
     }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 750px) {
     .buttons-div {
         grid-template-columns: 100% !important;
     }
-
-    .buttons-div input {}
 }
 
 input:hover,
