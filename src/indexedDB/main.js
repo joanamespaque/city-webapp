@@ -1,4 +1,9 @@
 let request = indexedDB.open("CidadeBD", 1);
+let db;
+
+request.onsuccess = function (event) {
+    db = request.result;
+};
 
 request.onupgradeneeded = function (event) {
     let db = event.target.result;
@@ -30,38 +35,42 @@ request.onupgradeneeded = function (event) {
 }
 
 function store(cidade) {
+    //Abrindo a transação com a object store "cidade"
+    transaction = db.transaction('cidade', "readwrite");
+
+    // Quando a transação é executada com sucesso
+    transaction.oncomplete = function (event) {
+        console.log('Transação readwrite em store() finalizada com sucesso.');
+        event.preventDefault();
+    };
+
+    // Quando ocorre algum erro na transação
+    transaction.onerror = function (event) {
+        console.log('Transação  readwrite em store() finalizada com erro. Erro: ' + event.target.error);
+        event.preventDefault();
+    };
+
+    let store = transaction.objectStore('cidade');
+
     if (cidade.id) {
         // se o objeto tem id, editar
-
+        let request = store.get(cidade.id);
     } else {
         // se não, adicionar
-        //Abrindo a transação com a object store "cidade"
-        transaction = db.transaction('cidade', "readwrite");
-
-        // Quando a transação é executada com sucesso
-        transaction.oncomplete = function (event) {
-            console.log('Transação readwrite em deletar() finalizada com sucesso.');
-        };
-
-        // Quando ocorre algum erro na transação
-        transaction.onerror = function (event) {
-            console.log('Transação  readwrite em deletar() finalizada com erro. Erro: ' + event.target.error);
-        };
 
         //Recuperando a object store para excluir o registro
-        let store = transaction.objectStore('cidade');
 
         let request = store.add(cidade);
 
-        request.onerror = function (event) {
-            console.log('Ocorreu um erro ao salvar cidade.');
-        }
 
-        //quando o registro for incluido com sucesso
-        request.onsuccess = function (event) {
-            console.log('Cidade salva com sucesso.');
-        }
+    }
+    request.onerror = function (event) {
+        console.log('Ocorreu um erro ao salvar cidade.');
+    }
 
+    //quando o registro for incluido com sucesso
+    request.onsuccess = function (event) {
+        console.log('Cidade salva com sucesso.');
     }
 
 }
@@ -159,8 +168,18 @@ function listar() {
     };
 
     let cidades = transaction.objectStore('cidade');
+    cidades.openCursor().onsuccess = function (event) {
+        var cursor = event.target.result;
+        if (cursor) {
+            console.log(cursor);
 
+            cursor.continue();
+        } else {
+            console.log('Entries all displayed.');
+        }
+    };
 }
+
 
 window.onload = function () {
     // aqui popula com os dados prontos

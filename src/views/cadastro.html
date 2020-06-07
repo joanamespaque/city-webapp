@@ -32,24 +32,34 @@
 
         <div id="main">
             <h2>Cadastrar nova Cidade</h2>
-            <form action="" class="cadastro-form">
-                <label>Nome:</label>
-                <input type="text" name="nome" id="nome" placeholder="Digite o nome da cidade...">
-                <p id="msgNome"></p>
+            <form action="lista.html" id="cidade-form">
+                <div class="cadastro-form">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" id="nome" placeholder="Digite o nome da cidade...">
+                    <p id="msgNome"></p>
 
-                <label>Estado:</label>
-                <select name="estado" id="estado">
-                    <option value="selecione" disabled selected>selecione</option>
-                </select>
-                <p id="msgEstado"></p>
+                    <label>Estado:</label>
+                    <select name="estado" id="estado">
+                        <option value="selecione" disabled selected>selecione</option>
+                    </select>
+                    <p id="msgEstado"></p>
 
-                <label>Código IGBE:</label>
-                <input type="text" name="ibgecod" id="ibgecod" disabled>
-                <p id="msgIBGE"></p>
+                    <label>Código IGBE:</label>
+                    <input type="text" name="ibgecod" id="ibgecod" disabled>
+                    <p id="msgIBGE"></p>
 
-                <label>Observações:</label>
-                <textarea name="obs" id="obs"
-                    placeholder="Campo de observações sobre a cidade a ser cadastrada"></textarea>
+                    <label>População estimada:</label>
+                    <input type="number" name="populacao" id="populacao">
+                    <p id="msgPopulacao"></p>
+
+                    <label>Observações:</label>
+                    <textarea name="obs" id="obs"
+                        placeholder="Campo de observações sobre a cidade a ser cadastrada"></textarea>
+                </div>
+                <div class="buttons-div">
+                    <input type="reset" value="Resetar Formulário" class="btn ">
+                    <input type="submit" value="Cadastrar" class="btn cadastrar disabled" disabled>
+                </div>
             </form>
         </div>
 
@@ -59,6 +69,7 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../assets/js/cadastro.js"></script>
+    <script src="../indexedDB/main.js"></script>
 </body>
 
 </html>

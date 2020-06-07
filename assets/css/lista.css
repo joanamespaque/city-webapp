@@ -1,12 +1,13 @@
 .editar {
     background: url("../../assets/img/edit.svg") no-repeat center center;
-    /* filter: invert(69%) sepia(20%) saturate(856%) hue-rotate(106deg) brightness(89%) contrast(89%); */
-    filter: invert(48%) sepia(23%) saturate(5553%) hue-rotate(216deg) brightness(100%) contrast(98%);
+    /* mudar cor do svg */
+    filter: invert(60%) sepia(10%) saturate(1869%) hue-rotate(106deg) brightness(108%) contrast(78%);
 }
 
 .deletar {
     background: url("../../assets/img/delete.svg") no-repeat center center;
-    filter: invert(48%) sepia(23%) saturate(5553%) hue-rotate(216deg) brightness(100%) contrast(98%);
+    /* mudar cor do svg */
+    filter: invert(60%) sepia(10%) saturate(1869%) hue-rotate(106deg) brightness(108%) contrast(78%);
 }
 
 .item-icon {

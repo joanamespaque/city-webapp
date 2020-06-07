@@ -77,7 +77,7 @@ nav {
     display: block;
     padding: 10px 30px;
     background: #6F78FC;
-    border-radius: 4px;
+    border-radius: 15px;
     color: #fff;
     text-align: center;
     font-size: 1rem;
@@ -85,6 +85,7 @@ nav {
     transition: all 0.3s;
     border: none;
     font-family: "Avenir", Helvetica, Arial, sans-serif;
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -139,15 +140,6 @@ select {
     margin-bottom: 15px;
     color: rgb(70, 70, 70);
 
-}
-
-input:hover,
-input:focus,
-textarea:hover,
-textarea:focus {
-    outline: none;
-    box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
-    border-color: rgba(137, 119, 255, 0.486);
 }
 
 @media screen and (max-width: 770px) {

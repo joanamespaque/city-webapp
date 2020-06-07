@@ -2,12 +2,13 @@ const urlEstados = "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
 const urlCidades = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
 let estados = [];
 let ibgedata = [];
+$(':input[type="submit"]').prop('disabled', true);
 let validacao = {
     "nome": false,
     "estado": false,
-    "obs": false,
-    "ibgecod": false
-};
+    "ibge": false,
+    "populacao": false
+}
 fetch(urlEstados).then(r => r.json())
     .then(json => {
         for (let i = 0; i < json.length; i++) {
@@ -55,15 +56,19 @@ $('#nome').change(function () {
 
 function ibgeIdValidation() {
     ibgedata.forEach(element => {
-        // console.log("--------");
-        // console.log(element.nome + " => " + $('#nome').val().toLowerCase());
-        // console.log(element.uf + " => " + $('#estado option:selected'));
-        // console.log("--------");
         if ((element.nome === $('#nome').val().toLowerCase().trim()) && (element.uf === $('#estado option:selected').val())) {
             console.log("entrou no if");
             $('#ibgecod').val(element.id);
             $('#msgIBGE').text('Código encontrado.');
             $('#msgIBGE').addClass('green');
+            validacao.nome = true;
+            validacao.estado = true;
+            validacao.ibge = true;
+            if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
+                $('input[type="submit"]').removeClass('disabled');
+                $(':input[type="submit"]').prop('disabled', false);
+            }
+
         }
     });
     if ($('#ibgecod').val() === '') {
@@ -72,3 +77,23 @@ function ibgeIdValidation() {
 
     }
 }
+
+$('#populacao').change(function () {
+    if ($('#populacao').val() <= 0) {
+        ($('#msgPopulacao')).text('Esse número precisa ser maior que 0.')
+        $('#msgPopulacao').addClass('red');
+    } else {
+        validacao.populacao = true;
+        $('#msgPopulacao').empty();
+        if (validacao.nome && validacao.estado && validacao.populacao && validacao.ibge) {
+            $('input[type="submit"]').removeClass('disabled');
+            $(':input[type="submit"]').prop('disabled', false);
+        }
+
+    }
+});
+
+$('#cidade-form').submit(function (event) {
+    console.log("submit");
+    event.preventDefault();
+});

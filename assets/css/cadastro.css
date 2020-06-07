@@ -6,12 +6,43 @@
     width: 60%;
     outline: none;
     margin-top: 20px;
-    margin-bottom: -20px;
 }
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus,
+select:hover,
+select:focus {
+    outline: none;
+    box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
+    transform: scale(1.05);
+    transition: all 0.3s;
+}
+
 
 .cadastro-form label {
     text-align: left;
     padding: 0 20px 10px 0;
+}
+
+.buttons-div {
+    display: grid;
+    grid-template-columns: 30% 30%;
+    margin: 20px 0 -40px 0;
+}
+
+.buttons-div input {
+    margin-right: 30px;
+}
+
+.cadastrar {
+    background-color: #57B793;
+}
+
+.disabled {
+    background-color: rgb(87, 87, 87);
+    cursor: not-allowed;
 }
 
 .cadastro-form input,
@@ -20,7 +51,6 @@ select {
     border: solid 0.5px rgba(78, 78, 78, 0.404);
     border-radius: 15px;
     min-width: 200px;
-    ;
 }
 
 select {
