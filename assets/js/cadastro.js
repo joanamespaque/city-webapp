@@ -78,7 +78,7 @@ function ibgeIdValidation(nome, estado) {
             cidades.forEach(c => {
                 console.log(element.id);
                 console.log(c.ibgeCod);
-                if (Number(element.id) === Number(c.ibgeCod)) {
+                if ((Number(element.id) === Number(c.ibgeCod)) && !queryString("id")) {
                     $('#msgIBGE').text('Código já cadastrado! Tente outra cidade.');
                     $('#msgIBGE').addClass('red');
                     verifica = false;
@@ -157,21 +157,3 @@ $('#cidade-form').submit(function (event) {
     event.preventDefault();
     window.location.href = "lista.html";
 });
-
-
-function queryString(parameter) {
-    let loc = location.search.substring(1, location.search.length);
-    let param_value = false;
-    let params = loc.split("&");
-    for (i = 0; i < params.length; i++) {
-        param_name = params[i].substring(0, params[i].indexOf('='));
-        if (param_name == parameter) {
-            param_value = params[i].substring(params[i].indexOf('=') + 1)
-        }
-    }
-    if (param_value) {
-        return param_value;
-    } else {
-        return undefined;
-    }
-}

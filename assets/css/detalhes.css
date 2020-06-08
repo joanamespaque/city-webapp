@@ -1,0 +1,31 @@
+#maininfo {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+h1 {
+    color: #6F78FC;
+}
+
+h3 {
+    color: #57B793;
+}
+
+.infocidade {
+    border-bottom: solid rgba(114, 114, 114, 0.158);
+    padding-bottom: 30px;
+}
+
+.infoclima {
+    margin-top: 20px;
+}
+
+.infoclima h2 {
+    color: rgba(124, 124, 124, 0.705)
+}
+
+.infoclima p {
+    padding: 10px 0 20px 0;
+}

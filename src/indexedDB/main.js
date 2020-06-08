@@ -11,12 +11,19 @@ window.onload = function () {
     window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
     request.onsuccess = function (event) {
         db = request.result;
-        event.preventDefault();
         listar();
         let id = queryString("id");
         if (id) {
             getCidade(Number(id));
         }
+        let idBusca = queryString("idBusca");
+        if (idBusca) {
+            getDetalhes(Number(idBusca));
+            var intervalo = window.setInterval(function () {
+                getDetalhes(Number(idBusca));
+            }, 50000);
+        }
+        event.preventDefault();
     };
 
 }
@@ -146,35 +153,66 @@ function getCidade(id) {
     }
 }
 
-function buscar(cidade) {
+function getDetalhes(id) {
     let transaction = db.transaction('cidade', "readonly");
     // Quando a transação é executada com sucesso
     transaction.oncomplete = function (event) {
-        console.log('Transação readonly em buscar() finalizada com sucesso.');
+        console.log('Transação readonly em get() finalizada com sucesso.');
     };
 
     // Quando ocorre algum erro na transação
     transaction.onerror = function (event) {
-        console.log('Transação  readonly em buscar() finalizada com erro. Erro: ' + event.target.error);
+        console.log('Transação  readonly em get() finalizada com erro. Erro: ' + event.target.error);
     };
 
-
     let store = transaction.objectStore('cidade');
-    let index = store.index("nome_estado");
-
-    //filtra as cidades com nome e estado referentes ao nome e estado da cidade passada como parametro
-    let filtro = IDBKeyRange.only([cidade.nome, cidade.estado]);
-
-    let request = index.openCursor(filtro);
-
+    let request = store.get(id);
     request.onsuccess = function (event) {
-        let cursor = event.target.result;
-        if (cursor) {
-            console.log(cursor.value);
-            cursor.continue();
+        $('#maininfo').empty();
+        let divcidade = $('<div>').addClass('infocidade');
+        let h1 = $('<h1>').text(event.target.result.nome + " / " + event.target.result.estado);
+        let ibge = $('<h3>').text("Código do IBGE: " + event.target.result.ibgeCod);
+        let pop = $('<h3>').text('População estimada: ' + event.target.result.populacao);
+        let obs = $('<p>');
+
+        if (event.target.result.obs === "") {
+            obs.text("Nenhuma observação informada.");
+        } else {
+            obs.text("Observações: " + event.target.result.obs);
         }
+
+        divcidade.append([h1, ibge, pop, obs]);
+
+        let divclima = $('<div>').addClass("infoclima");
+        let title = $('<h2>').text("Detalhes sobre o clima agora:");
+        let nome = event.target.result.nome.toLowerCase().trim().split(" ").join("%20");
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${nome},${event.target.result.estado},brazil&appid=3b0ddeb49055a4d5464ad63e1dba073c&units=metric`;
+
+        fetch(url).then(result => result.json()).then(data => {
+            let json = {
+                icon: data.weather[0].icon,
+                descricao: data.weather[0].description,
+                temp: data.main.temp,
+                min: data.main.temp_min,
+                max: data.main.temp_max,
+                feels: data.main.feels_like
+            };
+
+            let icon = $('<img>').attr('src', `http://openweathermap.org/img/wn/${json.icon}@2x.png`);
+            let temp = $('<p>').text("Temperatura atual: " + json.temp + "°C");
+            let min = $('<p>').text("Temperatura mínima: " + json.min + "°C");
+            let max = $('<p>').text("Temperatura máxima: " + json.max + "°C");
+            let feels = $('<p>').text("Sensação térmica: " + json.feels + "°C");
+            let desc = $('<p>').text(json.descricao);
+            divclima.append([icon, desc, temp, max, min, feels]);
+
+        });
+        divclima.append([title]);
+        $('#maininfo').append([divcidade, divclima]);
+        return event.target.result;
     }
 }
+
 
 
 function listar() {
@@ -214,7 +252,7 @@ function popularLista() {
         ];
         item.append(infos);
         let divButton = $('<div>').addClass("mais");
-        divButton.append($('<button>').addClass('btn').append('Ver mais'));
+        divButton.append($('<button>').addClass('btn detalhes').append('Ver mais').attr('id', element.id));
         let divMenu = $('<div>').addClass("menu");
         divMenu.append($('<div>').addClass('editar item-icon').attr({
             id: element.id
@@ -226,21 +264,4 @@ function popularLista() {
         item.append(divMenu);
         div.append(item);
     });
-}
-
-function queryString(parameter) {
-    let loc = location.search.substring(1, location.search.length);
-    let param_value = false;
-    let params = loc.split("&");
-    for (i = 0; i < params.length; i++) {
-        param_name = params[i].substring(0, params[i].indexOf('='));
-        if (param_name == parameter) {
-            param_value = params[i].substring(params[i].indexOf('=') + 1)
-        }
-    }
-    if (param_value) {
-        return param_value;
-    } else {
-        return undefined;
-    }
 }

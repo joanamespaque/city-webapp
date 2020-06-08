@@ -12,7 +12,7 @@ busca.change(function (event) {
     console.log(response);
 
     if (response.length) {
-        console.log("jjdsfijdfsidfsj");
+        $('.msg').empty();
         response.forEach(r => {
             let nome = r.nome.toLowerCase().trim().split(" ").join("%20");
             let url = `https://api.openweathermap.org/data/2.5/weather?q=${nome},${r.estado},brazil&appid=3b0ddeb49055a4d5464ad63e1dba073c&units=metric`;
@@ -26,8 +26,9 @@ busca.change(function (event) {
                     max: data.main.temp_max,
                     feels: data.main.feels_like
                 };
+
                 let divCidade = $('<div>').addClass("cidade");
-                let link = $('<a>').attr('href', 'detalhes.html?' + r.id);
+                let link = $('<a>').attr('href', 'detalhes.html?idBusca=' + r.id);
                 let h2 = $('<h2>').addClass('nome').text(r.nome + " / " + r.estado);
                 let ibge = $('<p>').text("Código IBGE: " + r.ibgeCod);
                 let populacao = $('<p>').text("População estimada: " + r.populacao);
@@ -46,13 +47,10 @@ busca.change(function (event) {
         });
 
     } else {
-        console.log("eeeeeeeeeeeee");
-        let msg = $('<h2>').text("Ops... nada encontrado!").css({
+        $('.msg').text("Ops... nada encontrado!").css({
             'color': 'grey',
             'text-align': 'center'
         });
-        console.log(msg)
-        $('.cidades-container').append(msg);
     }
 
     event.preventDefault();
