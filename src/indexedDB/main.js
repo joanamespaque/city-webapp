@@ -18,6 +18,7 @@ window.onload = function () {
         window.msIDBTransaction;
     window.IDBKeyRange =
         window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+    request = indexedDB.open("CidadeBD", 1);
     request.onsuccess = function (event) {
         db = request.result;
         listar();
