@@ -1,8 +1,8 @@
-let request = indexedDB.open("CidadeBD", 1);
 let db;
 let cidades = [];
 let cidade;
 window.onload = function () {
+    let request = indexedDB.open("CidadeBD", 1);
     // aqui popula com os dados prontos
     window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     // DON'T use "let indexedDB = ..." if you're not in a function.
