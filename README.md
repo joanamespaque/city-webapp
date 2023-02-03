@@ -1,4 +1,4 @@
-## Citys Web App
+## Cities Web App
 
 Aplicativo Web para cadastro de cidades desenvolvido para o processo de seleção da hotelflow. 
 
